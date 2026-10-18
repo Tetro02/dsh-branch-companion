@@ -6,6 +6,8 @@
   "panel.title": "Conversation branches",
   "panel.collapse": "Collapse",
   "panel.empty": "Select text in an answer, then choose \"Add to new branch\" — the branch tree appears here.",
+  "panel.source": "Source session",
+  "panel.openSource": "Open the source session",
   "panel.jump": "Open this branch",
   "panel.remove": "Remove this node and its sub-branches (sessions are kept)",
   "marker.title": "Branch: {quote}\nClick to open",

@@ -12,7 +12,6 @@ import { findQuoteRange } from './anchor.js'
 import { normalizeQuote } from './quote.js'
 import {
   STORAGE_KEY,
-  depthOf,
   parentOf,
   parseNodes,
   removeSubtree,
@@ -46,6 +45,9 @@ const CSS = `
 .dbc-head button:hover{background:var(--dsw-alias-interactive-bg-hover,#eef1f5)}
 .dbc-list{overflow:auto;padding:6px;display:flex;flex-direction:column;gap:2px}
 .dbc-empty{padding:12px;font-size:12px;line-height:18px;color:var(--dsw-alias-label-caption,#6b7280)}
+.dbc-root{display:flex;align-items:center;gap:6px;border-radius:6px;padding:5px 6px;cursor:pointer;font-size:12px;font-weight:600;color:var(--dsw-alias-label-secondary,#4b5563)}
+.dbc-root:hover{background:var(--dsw-alias-interactive-bg-hover,#eef1f5)}
+.dbc-root .dbc-root-label{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .dbc-node{display:flex;align-items:center;gap:6px;border-radius:6px;padding:5px 6px;cursor:pointer;font-size:12.5px;line-height:18px}
 .dbc-node:hover{background:var(--dsw-alias-interactive-bg-hover,#eef1f5)}
 .dbc-node.current{cursor:default;color:var(--dsw-alias-label-secondary,#4b5563)}
@@ -243,16 +245,73 @@ export class BranchOverlay {
       return
     }
     const sessionId = this.currentSessionId()
+    const known = new Set(this.nodes.map((node) => node.id))
+    const byParent = new Map<string, BranchNode[]>()
+    const roots: BranchNode[] = []
     for (const node of sortByCreated(this.nodes)) {
-      this.list.appendChild(this.row(node, sessionId))
+      if (node.parentId !== undefined && known.has(node.parentId)) {
+        const children = byParent.get(node.parentId) ?? []
+        children.push(node)
+        byParent.set(node.parentId, children)
+      } else {
+        roots.push(node)
+      }
+    }
+    const groups = new Map<string, BranchNode[]>()
+    for (const node of roots) {
+      const group = groups.get(node.sourceSessionId) ?? []
+      group.push(node)
+      groups.set(node.sourceSessionId, group)
+    }
+    for (const [sourceSessionId, group] of groups) {
+      this.list.appendChild(this.rootRow(sourceSessionId))
+      for (const node of group) this.appendNode(node, byParent, sessionId, 1)
     }
   }
 
+  /** Append one node and, recursively, its descendants. */
+  private appendNode(
+    node: BranchNode,
+    byParent: Map<string, BranchNode[]>,
+    sessionId: string | undefined,
+    depth: number
+  ): void {
+    this.list.appendChild(this.row(node, sessionId, depth))
+    for (const child of byParent.get(node.id) ?? []) {
+      this.appendNode(child, byParent, sessionId, depth + 1)
+    }
+  }
+
+  /** Build the source-Session row that roots one group. */
+  private rootRow(sessionId: string): HTMLElement {
+    const row = document.createElement('div')
+    row.className = 'dbc-root'
+    const label = document.createElement('span')
+    label.className = 'dbc-root-label'
+    label.textContent = this.sessionTitle(sessionId)
+    label.title = this.t('panel.openSource')
+    row.append(label)
+    row.addEventListener('click', () => this.open(sessionId))
+    return row
+  }
+
+  /** Durable Session title from the list projection, with a generic fallback. */
+  private sessionTitle(sessionId: string): string {
+    try {
+      const row = this.ctx.sessions.list?.getSnapshot?.()?.byId?.[sessionId]
+      const title = row?.projections?.values?.title
+      if (typeof title === 'string' && title.trim() !== '') return title
+    } catch {
+      /* the list store is optional; fall back to a generic label */
+    }
+    return this.t('panel.source')
+  }
+
   /** Build one panel row. */
-  private row(node: BranchNode, sessionId: string | undefined): HTMLElement {
+  private row(node: BranchNode, sessionId: string | undefined, depth: number): HTMLElement {
     const row = document.createElement('div')
     row.className = 'dbc-node'
-    row.style.paddingLeft = `${6 + depthOf(this.nodes, node) * 12}px`
+    row.style.paddingLeft = `${6 + depth * 14}px`
 
     const isCurrent = node.targetSessionId === sessionId
     if (isCurrent) row.classList.add('current')

@@ -6,6 +6,8 @@
   "panel.title": "对话分支",
   "panel.collapse": "收起",
   "panel.empty": "框选回答里的文字，点击「添加到新的分支」，这里就会出现可跳转的分支树。",
+  "panel.source": "来源会话",
+  "panel.openSource": "点击打开来源会话",
   "panel.jump": "点击跳转到这个分支",
   "panel.remove": "移除这个节点及其子分支（不删除会话）",
   "marker.title": "分支：{quote}\n点击前往",

@@ -25,6 +25,12 @@ export interface SessionRow {
     retainedBy?: {
         mainView?: number;
     };
+    /** Projection hints; `values.title` is the durable Session title. */
+    projections?: {
+        values?: {
+            title?: string | null;
+        };
+    };
 }
 /** The `sessions` service (Session controller client half). */
 export interface SessionsService {

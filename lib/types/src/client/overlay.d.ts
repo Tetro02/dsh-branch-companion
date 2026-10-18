@@ -47,6 +47,12 @@ export declare class BranchOverlay {
     private currentSessionId;
     /** Render the pill, panel visibility, and the tree rows. */
     private render;
+    /** Append one node and, recursively, its descendants. */
+    private appendNode;
+    /** Build the source-Session row that roots one group. */
+    private rootRow;
+    /** Durable Session title from the list projection, with a generic fallback. */
+    private sessionTitle;
     /** Build one panel row. */
     private row;
     /** Navigate to a Session, reporting a rejected navigation once. */
