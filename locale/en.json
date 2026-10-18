@@ -1,0 +1,17 @@
+{
+  "action.add": "Add to new branch",
+  "action.hint": "Open a new branch that keeps this context",
+  "pill.empty": "⑂ Branch",
+  "pill.count": "⑂ Branch {count}",
+  "panel.title": "Conversation branches",
+  "panel.collapse": "Collapse",
+  "panel.empty": "Select text in an answer, then choose \"Add to new branch\" — the branch tree appears here.",
+  "panel.jump": "Open this branch",
+  "panel.remove": "Remove this node and its sub-branches (sessions are kept)",
+  "marker.title": "Branch: {quote}\nClick to open",
+  "toast.created": "Branch created",
+  "toast.forkFailed": "Fork failed: {message}",
+  "toast.jumpFailed": "Navigation failed: {message}",
+  "toast.noSession": "No active conversation — open one first",
+  "composer.quote": "About this passage:\n\n> {quote}\n\n"
+}

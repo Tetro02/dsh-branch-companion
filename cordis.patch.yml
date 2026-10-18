@@ -1,0 +1,4 @@
+# dsh-branch-companion bundle layer: mounts the plugin row when this bundle is selected.
+- insert:
+    - id: branch-companion
+      name: "dsh-branch-companion"
