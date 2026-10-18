@@ -19,7 +19,7 @@ The node document lives in the browser (`localStorage`). The Host gains no servi
 - **Branch from a selection**: select any passage in an answer or question; **Add to new branch** appears under it and forks the current Session into a child.
 - **Context preserved**: the child keeps the context up to the fork point and prefills `About this passage: "…"`.
 - **Source markers**: a ⑂ marker sits beside the quoted text, re-anchors on scroll, re-render, and streaming, and jumps back to the branch.
-- **Branch tree panel**: the **⑂ Branch** pill at the top right opens a panel that lists the source Session and every branch/sub-branch with its nesting.
+- **Branch tree panel**: the **⑂ Branch** pill at the top right opens a panel grouped by source Session with parent/child nesting; every level expands and collapses (plus a collapse-all control), and the current branch carries a highlighted dot.
 - **Jump and prune**: click a node to jump; hover ✕ to remove that node and its sub-branches without deleting the Session.
 - **Client-only state**: nodes live in browser `localStorage`; the Host gains no service or event, and removing the plugin takes only the panel and markers.
 
@@ -135,7 +135,7 @@ None. The plugin neither assembles nor sends provider requests.
 - **The panel is an overlay**: it covers the right pane and must be collapsed; no sidebar slot is used.
 - **The document is per origin**: a different host or port yields a new `localStorage` and the old document does not follow.
 - **No Host configuration**: thresholds (600-character quote cap, 40 markers, retry count) are build-time constants, not Schemastery fields.
-- **Compared with the ChatGPT desktop edition**: tree nodes have no expand/collapse, keyboard navigation, or removal undo yet; nodes live in `localStorage` instead of a `branch-state.json` file.
+- **Compared with the ChatGPT desktop edition**: tree nodes have no keyboard navigation or removal undo yet; nodes live in `localStorage` instead of a `branch-state.json` file.
 
 ### Dev note
 

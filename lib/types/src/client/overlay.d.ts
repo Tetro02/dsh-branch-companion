@@ -17,9 +17,14 @@ export declare class BranchOverlay {
     private readonly action;
     private readonly pill;
     private readonly panel;
+    private readonly count;
+    private readonly collapseAll;
     private readonly list;
+    private readonly foot;
     private readonly toast;
     private nodes;
+    /** Group and node keys whose children are hidden in the panel. */
+    private readonly collapsed;
     private panelOpen;
     private selection;
     private markers;
@@ -47,14 +52,20 @@ export declare class BranchOverlay {
     private currentSessionId;
     /** Render the pill, panel visibility, and the tree rows. */
     private render;
+    /** One source Session, plus its branches unless the group is collapsed. */
+    private groupView;
     /** Append one node and, recursively, its descendants. */
     private appendNode;
     /** Build the source-Session row that roots one group. */
     private rootRow;
+    /** Collapse every group when anything is open, otherwise expand everything. */
+    private toggleAll;
+    /** A disclosure triangle that toggles one group and stops the row click. */
+    private chevron;
     /** Durable Session title from the list projection, with a generic fallback. */
     private sessionTitle;
-    /** Build one panel row. */
-    private row;
+    /** Build one branch row: disclosure, icon, quote, status dot, remove. */
+    private nodeRow;
     /** Navigate to a Session, reporting a rejected navigation once. */
     private open;
     /** Draw one marker per branch whose quote still exists in this Session. */
