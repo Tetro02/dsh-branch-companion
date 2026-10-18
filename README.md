@@ -13,8 +13,32 @@ English | [中文](README.zh.md)
 
 The node document lives in the browser (`localStorage`). The Host gains no service and no event; removing the plugin takes away the panel and the markers and nothing else.
 
+<a id="features"></a>
+## Features
+
+- **Branch from a selection**: select any passage in an answer or question; **Add to new branch** appears under it and forks the current Session into a child.
+- **Context preserved**: the child keeps the context up to the fork point and prefills `About this passage: "…"`.
+- **Source markers**: a ⑂ marker sits beside the quoted text, re-anchors on scroll, re-render, and streaming, and jumps back to the branch.
+- **Branch tree panel**: the **⑂ Branch** pill at the top right opens a panel that lists the source Session and every branch/sub-branch with its nesting.
+- **Jump and prune**: click a node to jump; hover ✕ to remove that node and its sub-branches without deleting the Session.
+- **Client-only state**: nodes live in browser `localStorage`; the Host gains no service or event, and removing the plugin takes only the panel and markers.
+
+<a id="usage-examples"></a>
+## Usage
+
+Take a multi-section technical answer (for example "explain OFDM"):
+
+1. **Create a branch from the answer**: select "cyclic prefix (CP)" and choose **Add to new branch** under the selection.
+2. **Continue in the branch**: the child Session opens with `About this passage: "cyclic prefix (CP)"` already in the composer; ask the follow-up there.
+3. **Return to the source**: a ⑂ marker appears beside the quoted text; click it to jump back, and it re-anchors after scrolling.
+4. **See the whole tree**: open the **⑂ Branch** pill at the top right; click a node to jump, hover ✕ to remove a node (the Session stays).
+
+> Screenshot walkthrough: the ChatGPT / Codex desktop edition, [chatgpt-desktop-branch-companion](https://github.com/Tetro02/chatgpt-desktop-branch-companion), shares the same core interaction (select → branch → marker → tree panel). The DSH edition runs in the DSH Web UI and keeps nodes in browser `localStorage`.
+
 ## Table of contents
 
+- [Features](#features)
+- [Usage](#usage)
 - [Use this package](#use-this-package)
 - [Understand the implementation](#understand-the-implementation)
 - [Further exploration](#further-exploration)
@@ -111,6 +135,7 @@ None. The plugin neither assembles nor sends provider requests.
 - **The panel is an overlay**: it covers the right pane and must be collapsed; no sidebar slot is used.
 - **The document is per origin**: a different host or port yields a new `localStorage` and the old document does not follow.
 - **No Host configuration**: thresholds (600-character quote cap, 40 markers, retry count) are build-time constants, not Schemastery fields.
+- **Compared with the ChatGPT desktop edition**: tree nodes have no expand/collapse, keyboard navigation, or removal undo yet; nodes live in `localStorage` instead of a `branch-state.json` file.
 
 ### Dev note
 
